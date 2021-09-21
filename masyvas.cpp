@@ -4,6 +4,10 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+using std::sort;
 using std::cout;
 using std::cin;
 using std::endl;
@@ -11,6 +15,7 @@ using std::string;
 using std::setprecision;
 using std::setw;
 using std::left;
+using std::vector;
 
 
 struct studentas {
@@ -18,10 +23,12 @@ struct studentas {
     float nd[10]{};
     float egzam{};
     float gal{};
+    float med{};
 };
 
 
 void pild(studentas& kint);
+double mediana(vector <float>& vec);
 void printas(studentas& kin);
 
 
@@ -36,6 +43,7 @@ int main()
         << setw(10) << "Pavarde"
         << setw(10) << "Egzaminas"
         << setw(10) << "Galutinis (vid.)"
+        << setw(10) << "Galutinis (med.)"
         << endl;
     cout << "-----------------------------------------------------------------" << endl;
     for (int i = 0; i < 2; i++)
@@ -58,8 +66,21 @@ void pild(studentas& kint) {
  
     }
     vid = sum / n;
+    kint.med = mediana(kint.nd);
+    
     cout << "Iveskite egzamino pazymi:"; cin >> kint.egzam;
     kint.gal = vid * 0.4 + kint.egzam * 0.6;
+}
+
+double mediana(vector <float>& vec) {
+    typedef vector <float> ::size_type vecSize;
+    vecSize size = vec.size();
+    if (size == 0) {
+        throw std::domain_error("Privalote ivesti nd rezultatus. Bandykite is naujo.");
+    }
+    sort(vec. begin(), vec.end());
+    vecSize med = size / 2;
+    return size % 2 == 0 ? (vec[vid - 1] + vec[vid]) / 2 : vec[vid];
 }
 
 void printas(studentas& kin) {
@@ -68,6 +89,7 @@ void printas(studentas& kin) {
         << setw(10) << kin.pavard
         << setw(10) << kin.egzam
         << setw(10) << setprecision(3) << kin.gal
+        << setw(10) << setprecision(3) << kin.med
         << endl;
     cout << "\n";
       }
